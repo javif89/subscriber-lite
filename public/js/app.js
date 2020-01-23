@@ -1999,6 +1999,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -37564,15 +37589,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "subscriber-list" }, [
+    _c("h3", [_vm._v("My Subscribers")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mt-3" }, [
+      _c("table", { staticClass: "table table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.subscribers, function(s) {
+            return _c("tr", { key: s.id }, [
+              _c("td", [_vm._v(_vm._s(s.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(s.email))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(s.state))]),
+              _vm._v(" "),
+              _vm._m(1, true)
+            ])
+          }),
+          0
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "subscriber-list" }, [
-      _c("h3", [_vm._v("My Subscribers")])
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("State")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("State")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "d-flex" }, [
+        _c("button", { staticClass: "btn btn-sm mr-2 btn-primary" }, [
+          _vm._v("Edit")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+          _vm._v("Delete")
+        ])
+      ])
     ])
   }
 ]
