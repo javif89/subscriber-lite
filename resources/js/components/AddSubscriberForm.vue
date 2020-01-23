@@ -1,18 +1,18 @@
 <template>
   <div class="add-subscriber-form">
     <h3>Add a subscriber</h3>
-    <form action @submit="createSubscriber">
+    <form action @submit.prevent="createSubscriber">
       <div class="row">
         <div class="col-lg-4">
           <div class="form-group">
             <label for>Name</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" v-model="subscriber.name"  required/>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-group">
             <label for>Email</label>
-            <input type="email" class="form-control" />
+            <input type="email" class="form-control" v-model="subscriber.email"  required/>
           </div>
         </div>
         <div class="col-lg-4">
@@ -20,7 +20,7 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label for>State</label>
-                <select name id class="form-control">
+                <select v-model="subscriber.state" id class="form-control" required>
                   <option value="active">Active</option>
                   <option value="unsubscribed">Unsubscribed</option>
                   <option value="junk">Junk</option>
@@ -30,12 +30,12 @@
               </div>
             </div>
             <div class="col-lg-6">
-                <div class="form-group">
-                    <label for="">&nbsp;</label>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </div>
+              <div class="form-group">
+                <label for>&nbsp;</label>
+                <div>
+                  <button type="submit" class="btn btn-primary">Create</button>
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -47,10 +47,29 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      subscriber: {
+        name: "John",
+        email: "john@john.com",
+        state: "active"
+      },
+      loading: false
+    };
   },
   methods: {
-    createSubscriber() {}
+    createSubscriber() {
+        this.loading = true;
+        let url = route('subscriber.store');
+
+        window.axios.post(url, this.subscriber)
+        .then(response => {
+            this.$emit('created', response.data);
+        }).catch(response => {
+            console.error(response.data);
+        }).finally(() => {
+            this.loading = false
+        });
+    }
   }
 };
 </script>

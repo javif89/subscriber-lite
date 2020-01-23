@@ -21,3 +21,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('api')->group(function() {
+    Route::middleware('auth')->group(function () {
+        Route::apiResources([
+            'subscriber' => 'SubscriberController',
+            'subscriber-field' => 'SubscriberFieldController'
+        ]);
+    });
+});
