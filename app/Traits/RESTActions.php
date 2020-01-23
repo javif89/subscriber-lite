@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 trait RESTActions
 {
-    public function all()
+    public function index()
     {
         $m = self::MODEL;
         return $this->respond(Response::HTTP_OK, $m::all());
     }
 
-    public function get($id)
+    public function show($id)
     {
         $m = self::MODEL;
         $model = $m::find($id);
@@ -23,7 +23,7 @@ trait RESTActions
         return $this->respond(Response::HTTP_OK, $model);
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $m = self::MODEL;
 
@@ -56,7 +56,7 @@ trait RESTActions
         return $this->respond(Response::HTTP_OK, $model);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $m = self::MODEL;
         if (is_null($m::find($id))) {
