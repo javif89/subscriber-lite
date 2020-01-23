@@ -4,7 +4,7 @@
 <div id="dashboard">
     <div class="container">
         <add-subscriber-form @created="addSubscriber"></add-subscriber-form>
-        <edit-subscriber-form :subscriber="editableSubscriber" :show="showEditForm"></edit-subscriber-form>
+        <edit-subscriber-form :subscriber="editableSubscriber" :show="showEditForm" @close="showEditForm=false"></edit-subscriber-form>
         <div class="mt-3">
             <div class="subscriber-list">
                 <h3>My Subscribers</h3>

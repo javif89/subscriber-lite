@@ -13,7 +13,7 @@
       </div>
       <div class="col-lg-4">
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-lg-9">
             <div class="form-group">
               <select v-model="field.type" class="form-control">
                 <option value="date">Date</option>
@@ -23,8 +23,8 @@
               </select>
             </div>
           </div>
-          <div class="col-lg-4">
-              <button class="btn btn-danger btn-sm">X</button>
+          <div class="col-lg-3">
+              <button class="btn btn-danger btn-block btn-sm" @click="destroy">X</button>
           </div>
         </div>
       </div>
@@ -37,7 +37,20 @@ export default {
   data() {
     return {};
   },
-  props: ["field"]
+  props: ["field"],
+  methods: {
+      update() {
+
+      },
+      destroy() {
+          let url = route('subscriber-field.destroy', {'subscriber_field': this.field.id});
+          
+          window.axios.delete(url)
+          .then(response => {
+              this.$emit('deleted', this.field);
+          });
+      }
+  }
 };
 </script>
 

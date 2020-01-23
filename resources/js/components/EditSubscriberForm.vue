@@ -1,6 +1,6 @@
 <template>
-  <div class="edit-subscriber-form" v-if="show">
-    <div class="content">
+  <div class="edit-subscriber-form" v-if="show" @click="$emit('close')">
+    <div class="content" @click.stop="">
       <h3>Subscriber info</h3>
       <div class="row" v-if="subscriber">
         <div class="col-lg-4">
@@ -31,7 +31,7 @@
       <div class="mt-3">
           <h3>Fields</h3>
           <button class="btn btn-success mb-4" @click="addField()">Add</button>
-          <subscriber-field v-for="field in subscriber.fields" :key="field.id" :field="field"></subscriber-field>
+          <subscriber-field v-for="field in subscriber.fields" :key="field.id" :field="field" @deleted="removeField"></subscriber-field>
       </div>
     </div>
   </div>
@@ -45,7 +45,6 @@ export default {
   props: ["subscriber", "show"],
   methods: {
     update() {},
-    updateField() {},
     addField() {
         let url = route('subscriber-field.store');
         let payload = {
@@ -59,7 +58,9 @@ export default {
             this.subscriber.fields.push(response.data);
         });
     },
-    deleteField() {}
+    removeField(field) {
+        this.subscriber.fields = this.subscriber.fields.filter(f => f.id !== field.id);
+    }
   }
 };
 </script>

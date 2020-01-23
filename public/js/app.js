@@ -2039,7 +2039,6 @@ __webpack_require__.r(__webpack_exports__);
   props: ["subscriber", "show"],
   methods: {
     update: function update() {},
-    updateField: function updateField() {},
     addField: function addField() {
       var _this = this;
 
@@ -2053,7 +2052,11 @@ __webpack_require__.r(__webpack_exports__);
         _this.subscriber.fields.push(response.data);
       });
     },
-    deleteField: function deleteField() {}
+    removeField: function removeField(field) {
+      this.subscriber.fields = this.subscriber.fields.filter(function (f) {
+        return f.id !== field.id;
+      });
+    }
   }
 });
 
@@ -2106,7 +2109,20 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  props: ["field"]
+  props: ["field"],
+  methods: {
+    update: function update() {},
+    destroy: function destroy() {
+      var _this = this;
+
+      var url = route('subscriber-field.destroy', {
+        'subscriber_field': this.field.id
+      });
+      window.axios["delete"](url).then(function (response) {
+        _this.$emit('deleted', _this.field);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -38312,162 +38328,193 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.show
-    ? _c("div", { staticClass: "edit-subscriber-form" }, [
-        _c("div", { staticClass: "content" }, [
-          _c("h3", [_vm._v("Subscriber info")]),
-          _vm._v(" "),
-          _vm.subscriber
-            ? _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-lg-4" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "" } }, [_vm._v("Name")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.subscriber.name,
-                          expression: "subscriber.name"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.subscriber.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.subscriber, "name", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-lg-4" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.subscriber.email,
-                          expression: "subscriber.email"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "email" },
-                      domProps: { value: _vm.subscriber.email },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.subscriber, "email", $event.target.value)
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-lg-4" }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "" } }, [_vm._v("State")]),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.subscriber.state,
-                            expression: "subscriber.state"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: { id: "" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.subscriber,
-                              "state",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { value: "active" } }, [
-                          _vm._v("Active")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "unsubscribed" } }, [
-                          _vm._v("Unsubscribed")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "junk" } }, [
-                          _vm._v("Junk")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "bounced" } }, [
-                          _vm._v("Bounced")
-                        ]),
-                        _vm._v(" "),
-                        _c("option", { attrs: { value: "unconfirmed" } }, [
-                          _vm._v("Uncomfirmed")
-                        ])
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            : _vm._e(),
-          _vm._v(" "),
+    ? _c(
+        "div",
+        {
+          staticClass: "edit-subscriber-form",
+          on: {
+            click: function($event) {
+              return _vm.$emit("close")
+            }
+          }
+        },
+        [
           _c(
             "div",
-            { staticClass: "mt-3" },
+            {
+              staticClass: "content",
+              on: {
+                click: function($event) {
+                  $event.stopPropagation()
+                }
+              }
+            },
             [
-              _c("h3", [_vm._v("Fields")]),
+              _c("h3", [_vm._v("Subscriber info")]),
+              _vm._v(" "),
+              _vm.subscriber
+                ? _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-lg-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [_vm._v("Name")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.subscriber.name,
+                              expression: "subscriber.name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.subscriber.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.subscriber,
+                                "name",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.subscriber.email,
+                              expression: "subscriber.email"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "email" },
+                          domProps: { value: _vm.subscriber.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.subscriber,
+                                "email",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "" } }, [_vm._v("State")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.subscriber.state,
+                                expression: "subscriber.state"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.subscriber,
+                                  "state",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "active" } }, [
+                              _vm._v("Active")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "unsubscribed" } }, [
+                              _vm._v("Unsubscribed")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "junk" } }, [
+                              _vm._v("Junk")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "bounced" } }, [
+                              _vm._v("Bounced")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "unconfirmed" } }, [
+                              _vm._v("Uncomfirmed")
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-success mb-4",
-                  on: {
-                    click: function($event) {
-                      return _vm.addField()
-                    }
-                  }
-                },
-                [_vm._v("Add")]
-              ),
-              _vm._v(" "),
-              _vm._l(_vm.subscriber.fields, function(field) {
-                return _c("subscriber-field", {
-                  key: field.id,
-                  attrs: { field: field }
-                })
-              })
-            ],
-            2
+                "div",
+                { staticClass: "mt-3" },
+                [
+                  _c("h3", [_vm._v("Fields")]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success mb-4",
+                      on: {
+                        click: function($event) {
+                          return _vm.addField()
+                        }
+                      }
+                    },
+                    [_vm._v("Add")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.subscriber.fields, function(field) {
+                    return _c("subscriber-field", {
+                      key: field.id,
+                      attrs: { field: field },
+                      on: { deleted: _vm.removeField }
+                    })
+                  })
+                ],
+                2
+              )
+            ]
           )
-        ])
-      ])
+        ]
+      )
     : _vm._e()
 }
 var staticRenderFns = []
@@ -38548,7 +38595,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "col-lg-4" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-lg-8" }, [
+          _c("div", { staticClass: "col-lg-9" }, [
             _c("div", { staticClass: "form-group" }, [
               _c(
                 "select",
@@ -38601,22 +38648,22 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "col-lg-3" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger btn-block btn-sm",
+                on: { click: _vm.destroy }
+              },
+              [_vm._v("X")]
+            )
+          ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-lg-4" }, [
-      _c("button", { staticClass: "btn btn-danger btn-sm" }, [_vm._v("X")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

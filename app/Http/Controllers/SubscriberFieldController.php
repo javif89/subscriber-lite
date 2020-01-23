@@ -12,7 +12,7 @@ class SubscriberFieldController extends Controller
 {
     use RESTActions;
 
-    const MODEL = Subscriber::class;
+    const MODEL = SubscriberField::class;
 
     public function store(Request $request)
     {
