@@ -2111,7 +2111,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ["field"],
   methods: {
-    update: function update() {},
+    update: function update() {
+      var url = route('subscriber-field.update', {
+        'subscriber_field': this.field.id
+      }); // Destructure the object and get only the fields we want
+
+      var payload = function (_ref) {
+        var title = _ref.title,
+            value = _ref.value,
+            type = _ref.type;
+        return {
+          title: title,
+          value: value,
+          type: type
+        };
+      }(this.field);
+
+      window.axios.put(url, payload).then(function (response) {});
+    },
     destroy: function destroy() {
       var _this = this;
 
@@ -38127,6 +38144,18 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-debounce/dist/vue-debounce.min.js":
+/*!************************************************************!*\
+  !*** ./node_modules/vue-debounce/dist/vue-debounce.min.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,n){ true?n(exports):undefined}(this,function(e){"use strict";function v(t,e){function n(){for(var e=[],n=arguments.length;n--;)e[n]=arguments[n];clearTimeout(r),(r=setTimeout(function(){r=null,t.apply(void 0,e)},a))||t.apply(void 0,e)}var o,i,u,r=null,a="number"==typeof e?e:(o=String(e).split(/(ms|s)/i),i=o[0],void 0===(u=o[1])&&(u="ms"),Number(i)*{ms:1,s:1e3}[u]);return n.cancel=function(){clearTimeout(r),r=null},n}function s(e,n){var t=(e.getNamedItem("debounce-events")||{}).value;void 0===t&&(t=!1);function o(e){return e.map(function(e){return e.toLowerCase()})}return t?o(t.split(",")):Array.isArray(n)?o(n):[n]}var n={install:function(e,n){void 0===n&&(n={});var c=n.lock,l=n.listenTo;void 0===l&&(l="keyup");var f=n.defaultTime;void 0===f&&(f="300ms");var d=n.fireOnEmpty;void 0===d&&(d=!1),e.directive("debounce",{bind:function(n,e){var i=e.value,t=e.arg,u=e.modifiers,o=s(n.attributes,l),r=v(function(e){i(e.value)},t||f);function a(e){var n=e.key,t=e.target,o=!u.lock&&!c||u.unlock;("Enter"===n&&o||!t.value&&d)&&(r.cancel(),i(t.value)),"Enter"!==n&&r(t)}o.forEach(function(e){n.addEventListener(e,a)})}})}};e.debounce=v,e.default=n,Object.defineProperty(e,"__esModule",{value:!0})});
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddSubscriberForm.vue?vue&type=template&id=09a6cef2&":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddSubscriberForm.vue?vue&type=template&id=09a6cef2& ***!
@@ -38550,6 +38579,13 @@ var render = function() {
                 rawName: "v-model",
                 value: _vm.field.title,
                 expression: "field.title"
+              },
+              {
+                name: "debounce",
+                rawName: "v-debounce:100ms",
+                value: _vm.update,
+                expression: "update",
+                arg: "100ms"
               }
             ],
             staticClass: "form-control",
@@ -38576,6 +38612,13 @@ var render = function() {
                 rawName: "v-model",
                 value: _vm.field.value,
                 expression: "field.value"
+              },
+              {
+                name: "debounce",
+                rawName: "v-debounce:100ms",
+                value: _vm.update,
+                expression: "update",
+                arg: "100ms"
               }
             ],
             staticClass: "form-control",
@@ -38606,9 +38649,17 @@ var render = function() {
                       rawName: "v-model",
                       value: _vm.field.type,
                       expression: "field.type"
+                    },
+                    {
+                      name: "debounce",
+                      rawName: "v-debounce:100ms",
+                      value: _vm.update,
+                      expression: "update",
+                      arg: "100ms"
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: { "debounce-events": ["input"] },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -50866,9 +50917,13 @@ webpackContext.id = "./resources/js sync recursive \\.vue$/";
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-debounce */ "./node_modules/vue-debounce/dist/vue-debounce.min.js");
+/* harmony import */ var vue_debounce__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_debounce__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -50879,6 +50934,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 __webpack_require__(/*! ./axios */ "./resources/js/axios.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+Vue.use(vue_debounce__WEBPACK_IMPORTED_MODULE_0___default.a);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

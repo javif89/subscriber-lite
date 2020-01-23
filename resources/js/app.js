@@ -8,6 +8,9 @@ require('./bootstrap');
 require('./axios');
 
 window.Vue = require('vue');
+import vueDebounce from 'vue-debounce'
+
+Vue.use(vueDebounce)
 
 /**
  * The following block of code may be used to automatically register your
