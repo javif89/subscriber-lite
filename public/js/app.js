@@ -2038,7 +2038,24 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ["subscriber", "show"],
   methods: {
-    update: function update() {},
+    update: function update() {
+      var url = route('subscriber.update', {
+        'subscriber': this.subscriber.id
+      }); // Destructure the object and get only the fields we want
+
+      var payload = function (_ref) {
+        var name = _ref.name,
+            email = _ref.email,
+            state = _ref.state;
+        return {
+          name: name,
+          email: email,
+          state: state
+        };
+      }(this.subscriber);
+
+      window.axios.put(url, payload).then(function (response) {});
+    },
     addField: function addField() {
       var _this = this;
 
@@ -38394,6 +38411,13 @@ var render = function() {
                               rawName: "v-model",
                               value: _vm.subscriber.name,
                               expression: "subscriber.name"
+                            },
+                            {
+                              name: "debounce",
+                              rawName: "v-debounce:100ms",
+                              value: _vm.update,
+                              expression: "update",
+                              arg: "100ms"
                             }
                           ],
                           staticClass: "form-control",
@@ -38426,6 +38450,13 @@ var render = function() {
                               rawName: "v-model",
                               value: _vm.subscriber.email,
                               expression: "subscriber.email"
+                            },
+                            {
+                              name: "debounce",
+                              rawName: "v-debounce:100ms",
+                              value: _vm.update,
+                              expression: "update",
+                              arg: "100ms"
                             }
                           ],
                           staticClass: "form-control",
@@ -38460,10 +38491,17 @@ var render = function() {
                                 rawName: "v-model",
                                 value: _vm.subscriber.state,
                                 expression: "subscriber.state"
+                              },
+                              {
+                                name: "debounce",
+                                rawName: "v-debounce:100ms",
+                                value: _vm.update,
+                                expression: "update",
+                                arg: "100ms"
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: { id: "" },
+                            attrs: { id: "", "debounce-events": ["input"] },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter

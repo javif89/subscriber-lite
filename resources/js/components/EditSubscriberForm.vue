@@ -6,19 +6,19 @@
         <div class="col-lg-4">
           <div class="form-group">
             <label for>Name</label>
-            <input type="text" class="form-control" v-model="subscriber.name" />
+            <input type="text" class="form-control" v-model="subscriber.name" v-debounce:100ms="update" />
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-group">
             <label for>Email</label>
-            <input type="email" class="form-control" v-model="subscriber.email" />
+            <input type="email" class="form-control" v-model="subscriber.email" v-debounce:100ms="update" />
           </div>
         </div>
         <div class="col-lg-4">
           <div class="form-group">
             <label for>State</label>
-            <select v-model="subscriber.state" id class="form-control">
+            <select v-model="subscriber.state" id class="form-control" v-debounce:100ms="update" :debounce-events="['input']">
               <option value="active">Active</option>
               <option value="unsubscribed">Unsubscribed</option>
               <option value="junk">Junk</option>
@@ -44,7 +44,16 @@ export default {
   },
   props: ["subscriber", "show"],
   methods: {
-    update() {},
+    update() {
+        let url = route('subscriber.update', {'subscriber': this.subscriber.id});
+        // Destructure the object and get only the fields we want
+        let payload = (({name, email, state}) => ({name, email, state}))(this.subscriber);
+
+        window.axios.put(url, payload)
+        .then(response => {
+            
+        });
+    },
     addField() {
         let url = route('subscriber-field.store');
         let payload = {

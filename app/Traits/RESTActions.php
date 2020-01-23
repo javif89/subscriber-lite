@@ -42,7 +42,7 @@ trait RESTActions
     {
         $m = self::MODEL;
 
-        $this->validate($request, $m::$rules);
+        // $this->validate($request, $m::$rules);
 
         $model = $m::find($id);
         if (is_null($model)) {
