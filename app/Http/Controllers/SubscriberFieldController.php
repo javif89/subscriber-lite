@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 class SubscriberFieldController extends Controller
 {
     use RESTActions;
-    
+
     const MODEL = Subscriber::class;
+
+    public static $rules = [
+        'title' => 'required'
+    ];
 }

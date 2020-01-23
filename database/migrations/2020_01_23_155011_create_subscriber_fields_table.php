@@ -17,7 +17,7 @@ class CreateSubscriberFieldsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('subscriber_id');
             $table->string('title');
-            $table->string('type');
+            $table->string('type')->default('string');
             $table->timestamps();
         });
     }
