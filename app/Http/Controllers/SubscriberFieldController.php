@@ -13,6 +13,7 @@ class SubscriberFieldController extends Controller
     use RESTActions;
 
     const MODEL = SubscriberField::class;
+    const RESOURCE_NAME = 'subscriber-field';
 
     public function store(Request $request)
     {
