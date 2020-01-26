@@ -34,6 +34,8 @@ php artisan db:seed
 
 **Tests**
 
+Set up a database called subscriber-lite_test, this is the database we'll use for tests.
+
 Run 
 ```
 phpunit
