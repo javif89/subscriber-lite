@@ -11,17 +11,6 @@ class SubscriberPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any subscribers.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can view the subscriber.
      *
      * @param  \App\User  $user
@@ -30,7 +19,8 @@ class SubscriberPolicy
      */
     public function view(User $user, Subscriber $subscriber)
     {
-        return $user->id === $subscriber->user_id;
+        return true;
+        // return $user->id === $subscriber->user_id;
     }
 
     /**

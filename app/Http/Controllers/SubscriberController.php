@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class SubscriberController extends Controller
 {
     use RESTActions {
+        RESTActions::show as restShow;
         RESTActions::update as restUpdate;
         RESTActions::destroy as restDestroy;
     }
@@ -35,14 +36,19 @@ class SubscriberController extends Controller
         return $this->respond(Response::HTTP_CREATED, $created);
     }
 
-    // Declare the update and delete functions using the class name so the policy can work properly
+    // Declare the update, show and delete functions using the class name so the policy can work properly
+    public function show(Request $request, Subscriber $subscriber)
+    {
+        return $this->restShow($subscriber->id);
+    }
+
     public function update(Request $request, Subscriber $subscriber)
     {
-        $this->restUpdate($request, $subscriber->id);
+        return $this->restUpdate($request, $subscriber->id);
     }
 
     public function destroy(Subscriber $subscriber)
     {
-        $this->restDestroy($subscriber->id);
+        return $this->restDestroy($subscriber->id);
     }
 }
