@@ -20,7 +20,6 @@ class SubscriberPolicy
     public function view(User $user, Subscriber $subscriber)
     {
         return true;
-        // return $user->id === $subscriber->user_id;
     }
 
     /**

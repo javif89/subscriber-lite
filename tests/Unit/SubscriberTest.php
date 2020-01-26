@@ -26,11 +26,8 @@ class SubscriberTest extends TestCase
         $url = route('subscriber.store');
         $user = factory(\App\User::class)->create();
         $payload = ['name' => 'Test Subscriber', 'email' => 'test@gmail.com', 'state' => 'active'];
-
         $response = $this->actingAs($user)->post($url, $payload, $this->headers);
-
         $id = $response->json('id');
-
         // Then update the subscriber
         $url = route('subscriber.update', ['subscriber' => $id]);
         $response = $this->actingAs($user)->put($url, ['state' => 'bounced'], $this->headers);
