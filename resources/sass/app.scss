@@ -3,19 +3,11 @@
 
 // Variables
 @import 'variables';
+@import 'typography';
+@import 'util';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-.verticenter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.bold {
-    font-weight: bold;
-}
 
 #home {
     .hero {
@@ -41,5 +33,13 @@
             font-size: 44px;
             font-weight: bold;
         }
+    }
+}
+
+.subscriber-list {
+    .subscriber {
+        border: 1px solid #eee;
+        border-radius: 4px;
+        padding: 10px;
     }
 }

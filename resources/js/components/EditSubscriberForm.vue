@@ -84,6 +84,7 @@ export default {
     background: rgba($color: #000000, $alpha: 0.6);
     overflow-y: auto;
     padding: 20px 0;
+    z-index: 200;
 
     .content {
         width: 50%;
