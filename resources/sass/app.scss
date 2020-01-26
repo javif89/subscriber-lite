@@ -6,3 +6,40 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.verticenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#home {
+    .hero {
+
+        .title {
+            font-weight: 800;
+            font-size: 54px;
+            line-height: 64px;
+        }
+
+        .subtitle {
+            font-size: 44px;
+            font-weight: 600;
+        }
+
+        p.lead {
+            font-size: 30px;
+        }
+
+        .cta {
+            background-color: $color-primary;
+            color: white;
+            font-size: 44px;
+            font-weight: bold;
+        }
+    }
+}
