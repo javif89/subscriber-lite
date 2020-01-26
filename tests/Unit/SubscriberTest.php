@@ -58,4 +58,15 @@ class SubscriberTest extends TestCase
         $url = route('subscriber.show', ['subscriber' => $id]);
         $this->actingAs($user)->get($url, $this->headers)->assertStatus(404);
     }
+
+    public function testValidation(){
+        // Attempt to create the subscriber with invalid data (no email)
+        $url = route('subscriber.store');
+        $user = factory(\App\User::class)->create();
+        $payload = ['name' => 'Test Subscriber', 'state' => 'active'];
+
+        $response = $this->actingAs($user)->post($url, $payload, $this->headers);
+
+        $response->assertStatus(422); // 422 unprocessabl entity
+    }
 }

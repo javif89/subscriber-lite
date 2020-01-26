@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 trait RESTActions
 {
@@ -27,7 +28,11 @@ trait RESTActions
     {
         $m = self::MODEL;
 
-        $this->validate($request, $m::$rules);
+        $validator = Validator::make($request->all(), Subscriber::$rules);
+
+        if ($validator->fails()) {
+            return $this->respond(Response::HTTP_UNPROCESSABLE_ENTITY, $validator->getMessageBag());
+        }
 
         $payload = $request->all();
 
@@ -41,8 +46,6 @@ trait RESTActions
     public function update(Request $request, $id)
     {
         $m = self::MODEL;
-
-        // $this->validate($request, $m::$rules);
 
         $model = $m::find($id);
         if (is_null($model)) {

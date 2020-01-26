@@ -7,6 +7,7 @@ use App\Traits\RESTActions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class SubscriberController extends Controller
 {
@@ -25,13 +26,18 @@ class SubscriberController extends Controller
     // Override the store function so we can make sure to create the subscriber under the currently authenticated user
     public function store(Request $request)
     {
-        $this->validate($request, Subscriber::$rules);
+        $validator = Validator::make($request->all(), Subscriber::$rules);
+
+        if ($validator->fails()) {
+            return $this->respond(Response::HTTP_UNPROCESSABLE_ENTITY, $validator->getMessageBag());
+        }
 
         $payload = $request->all();
 
         $created = Auth::user()->subscribers()->create($payload);
         // Load all the default value fields (if any)
         $created->refresh();
+        $created->load('fields');
 
         return $this->respond(Response::HTTP_CREATED, $created);
     }

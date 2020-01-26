@@ -18,7 +18,7 @@ class CreateSubscribersTable extends Migration
             $table->bigInteger('user_id');
             $table->string('email');
             $table->string('name');
-            $table->string('state');
+            $table->string('state')->default('active');
             $table->timestamps();
         });
     }
