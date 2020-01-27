@@ -26,7 +26,7 @@ Run migrations
 php artisan migrate
 ```
 
-Seed initial data
+Seed initial data (optional)
 
 ```
 php artisan db:seed
