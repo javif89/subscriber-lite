@@ -32,6 +32,11 @@ class SubscriberController extends Controller
             return $this->respond(Response::HTTP_UNPROCESSABLE_ENTITY, $validator->getMessageBag());
         }
 
+        // Check if there's already a user with this email subscribed
+        if(!empty(Auth::user()->subscribers()->where('email', $request->input('email'))->first())) {
+            return $this->respond(Response::HTTP_UNPROCESSABLE_ENTITY, ['email' => [['This email is already in your subscribers']]]);
+        }
+
         $payload = $request->all();
 
         $created = Auth::user()->subscribers()->create($payload);
