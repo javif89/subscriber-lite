@@ -49,8 +49,8 @@ export default {
   data() {
     return {
       subscriber: {
-        name: "John",
-        email: "john@john.com",
+        name: "",
+        email: "",
         state: "active"
       },
       loading: false
