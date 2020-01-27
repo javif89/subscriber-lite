@@ -26,6 +26,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "sweetalert2": "^9.7.0",
         "vue-debounce": "^2.3.0"
     }
 }

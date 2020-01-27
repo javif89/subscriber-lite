@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   data() {
     return {
@@ -64,8 +66,15 @@ export default {
         window.axios.post(url, this.subscriber)
         .then(response => {
             this.$emit('created', response.data);
-        }).catch(response => {
-            console.error(response.data);
+        }).catch((err) => {
+            console.log(err.response.data);
+            let error = err.response.data[Object.keys(err.response.data)[0]][0];
+            Swal.fire({
+              title: 'Error!',
+              text: error,
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            });
         }).finally(() => {
             this.loading = false
         });

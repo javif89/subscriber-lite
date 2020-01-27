@@ -12,6 +12,8 @@ import vueDebounce from 'vue-debounce'
 
 Vue.use(vueDebounce)
 
+import Swal from 'sweetalert2'
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
