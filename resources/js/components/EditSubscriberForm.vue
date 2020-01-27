@@ -1,7 +1,14 @@
 <template>
-  <div class="edit-subscriber-form" v-if="show" @click="$emit('close')">
-    <div class="content" @click.stop="">
-      <h3>Subscriber info</h3>
+  <div class="edit-subscriber-form" v-if="show">
+    <div class="content">
+      <div class="row">
+        <div class="col">
+          <h3>Subscriber info</h3>
+        </div>
+        <div class="col-3 text-right">
+          <button class="btn" @click="$emit('close')"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
       <div class="row" v-if="subscriber">
         <div class="col-lg-4">
           <div class="form-group">

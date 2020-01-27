@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="col-lg-3">
-              <button class="btn btn-danger btn-block btn-sm" @click="destroy">X</button>
+              <button class="btn btn-danger btn-block btn-sm" @click="destroy"><i class="fa fa-times"></i></button>
           </div>
         </div>
       </div>
