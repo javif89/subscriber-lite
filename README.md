@@ -1,4 +1,4 @@
-# Subscriber Lite
+![logo](https://i.imgur.com/J9N3sIZ.png)
 
 ## Set up instructions
 
